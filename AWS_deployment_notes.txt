@@ -250,11 +250,11 @@ git push -u origin main
 <<<trying SSH instead of HTTPS in the command above to see if it fixes the https issue in the end. They use https link in the video though.>>>
 
 
+Type "yes" when prompted
 
 
 
-
-Once you see your project, the github repository part is complete, and you can move on to setting up your EC2 instance.
+Once you "ls" or "dir" and see the .gitignore and server.py files in your project, the github repository part is complete, and you can move on to setting up your EC2 instance.
 
 
 
@@ -319,18 +319,20 @@ We also want to enable all HTTPS and HTTP traffic. This is a server after all!
 
 7. Launch your instance! Next, we'll connect to our instance to be able to access our projects remotely through SSH (secure shell).
 
-8. Now we’re ready to use our .pem file to connect to the AWS instance! In your AWS console, click connect. We will be using the supplied code in your terminal (PC users: use a bash terminal to do this). (NOT CMDER???)
+8. Now we’re ready to use our .pem file to connect to the AWS instance! In your AWS console, click connect. We will be using the supplied code in your terminal (PC users: use a bash terminal to do this). (NOT CMDER??? Yes Cmder is a bash terminal.)
 
 9. From the AWS EC2 dashboard, select your instance and hit the "connect" button and then go to the "SSH client" tab. Let's SSH into the server! SSH stands for "secure shell" and is a way to access a computer or server remotely through a terminal. Toto, we're not in localhost:5000 anymore!
 
-10. The commands in the window that pops up should allow you to SSH your way onto your remote server. It will produce the commands for your specific instance with the pem key you made. In the example below, the pem key created was named "magical_unicorns". Yours will be different. (USE ONLY THE SSH COMMAND. NOT the commands that start with "chmod" or "ec2".)
+10. The commands in the window that pops up should allow you to SSH your way onto your remote server. It will produce the commands for your specific instance with the pem key you made. In the example below, the pem key created was named "magical_unicorns". Yours will be different. (USE ONLY THE SSH COMMAND. NOT the commands that start with "chmod" or "ec2". IF IT DOESN'T WORK THE FIRST TIME, TRY RUNNING THE OTHER TWO COMMANDS FIRST. AT LEAST THE FIRST ONE (chmod). The second one will give an error, unrecognized command.)
 
 In your terminal, cd into the directory that contains your pem key, wherever you put it. For example:
 
 cd projects/pem_keys
 
 MINE IS:
-cd C:\Users\jetbl\OneDrive\Desktop/pem_keys (REPLACE ALL THESE BACK SLASHES WITH FORWARD SLASHES???)
+cd C:\Users\jetbl\OneDrive\Desktop/pem_keys (REPLACE ALL THESE BACK SLASHES WITH FORWARD SLASHES??? No.)
+
+Run the the command that starts with "ssh".
 
 You may have to type yes, wait a second and possibly run the last command a second time, but if all goes well, you should now be connected to your Ubuntu cloud server instance and will see an excitingly colorful new terminal prompt that looks something like this: ubuntu@ip-172-31-47-191:~$
 
@@ -347,8 +349,13 @@ Although we have linux, our new computer is otherwise empty. Let’s change that
 In the terminal:
 
 sudo apt-get update
+// takes a few seconds, a lot of things happen
+
 sudo apt-get install python3-pip nginx git -y
+//takes a few more seconds, and even more things will happen.
+
 sudo apt-get update
+//takes a couple seconds, just a few things happen.
 
 <<<run these (and the below) commands one at a time, exactly as shown>>>
 
@@ -358,7 +365,7 @@ sudo apt-get update
 
 Install venv so we can create a virtual environment.
 
-sudo apt-get install python3-venv        // answer Yes when prompted!
+sudo apt-get install python3-venv        // answer Yes (Y) when prompted!
 
 
 
@@ -388,8 +395,8 @@ sudo mysql -uroot -p
 # enter the same password as MySQL on your computer when prompted
 (My password is 'root')
 
-This step should open up the MySQL shell on your remote server. 
-(This will look like "mysql>"
+This step should open up the MySQL shell on your remote server.
+(This will look like "mysql>")
 
 
 
@@ -420,6 +427,8 @@ sudo mysql_secure_installation
 
 There will be a series of prompts to answer. Follow the screen shot below.
 
+Input your password (root)
+
 
 n
 n
@@ -446,9 +455,11 @@ mysql -uroot -p
 
 Next, we will need to set up the database that our project will need. This can easily be done by going to MySQL Workbench and exporting the data we already have.
 
-1. Export the schema. Go to "Server" on the top ribbon and choose "Data Export". Select the schema in the list. Select "Include Create Schema". Copy the location of the "Export to Self-Contained File". Select "Export".
+1. Export the schema. Go to "Server" on the top ribbon and choose "Data Export". Select the schema in the list. Select "Include Create Schema". Copy the location of the "Export to Self-Contained File". Select "Start Export".
 
-2. Open the dump file in a text editor and copy the entire file. (This can be done with the "code 'copy dump/file/path in quotes here'" command, then right click to paste.
+2. Open the dump file in a text editor and copy the entire file. (This can be done with the "code 'copy dump/file/path in quotes here'" command, then right click to paste.)
+
+(THAT DIDN'T WORK FOR ME??? Ask about in Dojo Hall, if no time, then just navigate the path to find the dump, open it in MySQL Workbench, copy the entire file, and paste in the mysql shell. Continue on from there.)
 
 3. In the mysql shell (in ubuntu) paste the file into the shell.
 
@@ -462,7 +473,7 @@ SHOW DATABASES;
 
 You should see your schema in the list that follows.
 
-When you are ready to leave the mysql shell, type: 
+When you are ready to leave the mysql shell, type:
 exit
 
 
@@ -475,9 +486,13 @@ Now, we are going to clone (bring in) our project (using Git) that we want to de
 
 
 
+git clone {{ git repo url }}
+git clone git@github.com:RobynTraciLang/Lang_Robyn_Coding_Dojo_Wall.git
+// (use SSH url this time and see what happens. DOESN'T WORK, GET AN ERROR THAT SAYS "PERMISSION DENIED (PUBLIC KEY) ls to view, you should see your project name there.)
 
-git clone {{ url copied from github project }} (use SSH url this time and see what happens. ls to view, you should see your project name there.)
-cd {{ project }} (PLEASE MAKE A NOTE OF YOUR PROJECT NAME!!!!! It will show in the "ls" step above.)
+cd {{ project }}
+
+// (PLEASE MAKE A NOTE OF YOUR PROJECT NAME!!!!! It will show in the "ls" step above.)
 
 Make sure your project looks exactly like you remember it (ls to see if all the files are there) and now let's make a virtual environment.
 
