@@ -1,0 +1,799 @@
+TO DEPLOY TO AWS, INPUT THE FOLLOWING COMMANDS (into Cmder):
+
+
+
+
+pipenv shell (virtual environment should be activated)
+
+pipenv requirements > requirements.txt
+
+
+Important!
+
+We’re about to initialize a new git repo. Your git repo must be initialized within the outer project folder. This is the same level as your server.py file. If you ls and don’t see server.py, you are in the wrong place. Double check your location before you initialize your repo.
+
+touch .gitignore
+
+
+
+
+
+open gitignore file in text editor with this command:
+code .gitignore
+
+
+
+RIGHT CLICK to paste always (in the terminal/Cmder)
+
+
+
+input the following into the file:
+(from toptal.com/developers/gitignore)
+
+
+
+
+<<<do not include this line, this is the beginning of the gitignore file>>>
+
+# Created by https://www.toptal.com/developers/gitignore/api/flask
+# Edit at https://www.toptal.com/developers/gitignore?templates=flask
+
+### Flask ###
+instance/*
+!instance/.gitignore
+.webassets-cache
+.env
+
+### Flask.Python Stack ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/#use-with-ide
+.pdm.toml
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+# End of https://www.toptal.com/developers/gitignore/api/flask
+
+<<<do not include this line, this is the end of the gitignore file>>>
+
+
+
+
+
+
+
+Save and close the file (HOW TO SAVE???)
+
+
+
+
+
+
+
+
+<<<do not include this line, now create a github repository (may be already done, see "Flask Deployment 21.1 --> Setup" on Learn Platform if not)>>>
+
+
+
+
+Go to Github account
+Go to Repositories
+Create a new repository (click green "New" button)
+Give it a name (USE SAME NAME AS PROJECT NAME IF POSSIBLE)
+Leave it as "Public"
+Leave bottom three things unchecked (because we already have all of these?)
+
+
+
+
+<<<after you select Create repository, the below screen will appear. Run these commands in either the terminal or GitBash, INSIDE THE PROJECT FOLDER. You should see the name of the server file and the .gitignore file we created above, ie server.py if you use the ls command.>>>
+
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:RobynTraciLang/black_belt_exam.git
+git push -u origin main
+
+<<<trying SSH instead of HTTPS in the command above to see if it fixes the https issue in the end. They use https link in the video though.>>>
+
+
+
+
+
+
+Once you see your project, the github repository part is complete, and you can move on to setting up your EC2 instance.
+
+
+
+
+
+
+
+
+Sign up for AWS Free Tier (I have, just log in from now on)
+
+
+
+
+
+
+
+
+ROAD MAP:
+1. Launch an Amazon EC2 Instance
+We are going to be renting some space on a computer owned by Amazon. We have been using our own computer, localhost, to host our applications for us. Our computer was not designed to be a server, it was designed to be a client. Amazon has some powerful computers that can run multiple high traffic applications so we will be renting a small corner of a very large and powerful server computer.
+
+Note: In this chapter, we will demonstrate how to run a free instance. Amazon EC2 offers up to 1 year of free use so that programmers like us can enjoy the free service.
+
+2. Connect to our EC2 instance
+Now that we've rented our server space, how do we access it? What do we mean by access? It's just like when you open up your terminal and access the files in your own computer. Fortunately, we can use our own terminal to connect to the computer that we bought. It is as if we are accessing the terminal from that computer.
+
+3. Installation
+Your EC2 instance has only the operating system installed. In order to get our project up and running we'll have to install the necessary software. We will replicate the development environment from your computer on the server so that the application will run remotely just as it does locally.
+
+4. Point
+We are going to register our domain name to point to the IP address of this computer that we bought from Amazon. Now whenever someone requests our domain name, the request will look at the address book, and know which IP address to go to.
+
+
+
+
+
+
+
+
+
+Actual steps for the above:
+1. Go to https://aws.amazon.com/ and navigate to the EC2 dashboard. There should be a menu item for launching an instance. Proceed to start launching!
+
+2. Name your instance. It can be the name of your project or something generic. (Make it the name of your project)
+
+3. Select the Amazon Machine Image (AMI) we want on our instance.
+This is the operating system that will be installed on our virtual machine. We want Ubuntu that's still Free tier eligible. Make sure you always pick Free tier eligible if you don't want to end up paying Amazon fees! Be sure to select Ubuntu Server version 20.04. Also, select our instance type. t2.micro is the largest instance that is still Free tier eligible. Again, we want to pick the smallest server possible so we don't get charged.
+
+4. Configure a key-pair (login). This will allow you to connect to your instance as an admin. Name your pem key whatever makes the most sense to you. The image below shows the pem key name as "my_super_secret_keypair". Give it a generic name, not the name of your project, as we will be re-using this instance.
+
+Set the types to RSA and .pem
+
+Save the key somewhere safe (Mine is cd C:\Users\jetbl\OneDrive\Desktop/pem_keys)
+
+This next part is very important! The key will automatically be saved to your downloads folder when you click Download Key Pair, but you will want to move it. Put your pem key in a file that has no chance of EVER being pushed to github. This file is the only way you will be able to log into AWS, and anyone with the file can do so. This key should not be shared. Never upload your PEM key to a git repo or put it on a public place on the internet. This is a literal key to access our instance, and misplacing it can potentially allow bad actors to install malicious software. Always store your PEM keys in a safe local folder!
+
+5. Configure the security group. We want to limit the amount of computers that can access our server through SSH, so it is recommended you set your SSH traffic to My IP. If you are on public wifi or you change locations regularly, your IP address will change. If you are having trouble using SSH, confirm this IP address is yours!
+
+We also want to enable all HTTPS and HTTP traffic. This is a server after all!
+
+6. Configure storage. We want to make sure we stay in Free tier eligible.
+
+7. Launch your instance! Next, we'll connect to our instance to be able to access our projects remotely through SSH (secure shell).
+
+8. Now we’re ready to use our .pem file to connect to the AWS instance! In your AWS console, click connect. We will be using the supplied code in your terminal (PC users: use a bash terminal to do this). (NOT CMDER???)
+
+9. From the AWS EC2 dashboard, select your instance and hit the "connect" button and then go to the "SSH client" tab. Let's SSH into the server! SSH stands for "secure shell" and is a way to access a computer or server remotely through a terminal. Toto, we're not in localhost:5000 anymore!
+
+10. The commands in the window that pops up should allow you to SSH your way onto your remote server. It will produce the commands for your specific instance with the pem key you made. In the example below, the pem key created was named "magical_unicorns". Yours will be different. (USE ONLY THE SSH COMMAND. NOT the commands that start with "chmod" or "ec2".)
+
+In your terminal, cd into the directory that contains your pem key, wherever you put it. For example:
+
+cd projects/pem_keys
+
+MINE IS:
+cd C:\Users\jetbl\OneDrive\Desktop/pem_keys (REPLACE ALL THESE BACK SLASHES WITH FORWARD SLASHES???)
+
+You may have to type yes, wait a second and possibly run the last command a second time, but if all goes well, you should now be connected to your Ubuntu cloud server instance and will see an excitingly colorful new terminal prompt that looks something like this: ubuntu@ip-172-31-47-191:~$
+
+
+
+
+
+
+
+
+
+Although we have linux, our new computer is otherwise empty. Let’s change that so we can start building a server capable of providing content that the rest of the world can access. In order to do so, we have to install some key programs first. First, let’s install python, python dev, pip, nginx, and git
+
+In the terminal:
+
+sudo apt-get update
+sudo apt-get install python3-pip nginx git -y
+sudo apt-get update
+
+<<<run these (and the below) commands one at a time, exactly as shown>>>
+
+
+
+
+
+Install venv so we can create a virtual environment.
+
+sudo apt-get install python3-venv        // answer Yes when prompted!
+
+
+
+
+
+
+Next, we will need to install our mySQL server:
+
+sudo apt-get install mysql-server         // answer Yes when prompted!
+sudo apt-get update
+
+
+
+
+
+
+The next steps will allow our flask project to create a connection to the MySQL database we just installed.
+
+
+
+
+
+
+First log into the MySQL server.
+
+sudo mysql -uroot -p
+# enter the same password as MySQL on your computer when prompted
+(My password is 'root')
+
+This step should open up the MySQL shell on your remote server. 
+(This will look like "mysql>"
+
+
+
+
+
+
+The next step will allow us to log into the database without using sudo in our ubuntu shell. Type the following commands, outlined in red, into the mysql shell:
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+
+mysql> FLUSH PRIVILEGES;
+
+mysql> quit
+
+(Goes back to ubuntu line)
+
+
+
+
+
+The next installation will allow us to configure security settings. After exiting the mysql shell, back in your ubuntu remote server, enter the following command:
+
+sudo mysql_secure_installation
+
+
+
+
+
+There will be a series of prompts to answer. Follow the screen shot below.
+
+
+n
+n
+
+y
+y
+y
+y
+
+
+
+If the above commands worked correctly, you should be able to log into the MySQL shell without sudo.
+
+
+mysql -uroot -p
+# enter password when prompted
+(My password is 'root')
+
+
+
+
+
+
+
+Next, we will need to set up the database that our project will need. This can easily be done by going to MySQL Workbench and exporting the data we already have.
+
+1. Export the schema. Go to "Server" on the top ribbon and choose "Data Export". Select the schema in the list. Select "Include Create Schema". Copy the location of the "Export to Self-Contained File". Select "Export".
+
+2. Open the dump file in a text editor and copy the entire file. (This can be done with the "code 'copy dump/file/path in quotes here'" command, then right click to paste.
+
+3. In the mysql shell (in ubuntu) paste the file into the shell.
+
+After logging in (without sudo) like above:
+mysql> <<<paste the contents of the dump file here>>>
+
+
+4. Verify that the database was created with:
+
+SHOW DATABASES;
+
+You should see your schema in the list that follows.
+
+When you are ready to leave the mysql shell, type: 
+exit
+
+
+
+
+
+
+
+Now, we are going to clone (bring in) our project (using Git) that we want to deploy into our server and cd into it.
+
+
+
+
+git clone {{ url copied from github project }} (use SSH url this time and see what happens. ls to view, you should see your project name there.)
+cd {{ project }} (PLEASE MAKE A NOTE OF YOUR PROJECT NAME!!!!! It will show in the "ls" step above.)
+
+Make sure your project looks exactly like you remember it (ls to see if all the files are there) and now let's make a virtual environment.
+
+
+
+
+<<<Run the following commands exactly as shown, one by one>>>
+
+
+~/myRepoName$ python3 -m venv venv                                   // create the environment and call it venv. Nothing happens, new empty line comes next.
+~/myRepoName$ source venv/bin/activate                               // activate the environment. Nothing happens, new empty line now starting with (venv) comes next.
+(venv) ~/myRepoName$ pip3 install requirements requirements.txt      // install everything that requirements.txt says you need. If you get an error here, run "pip(3?) list" which will show all the dependencies you have.
+(venv) ~/myRepoName$ pip3 install gunicorn==19.6.0                   // install gunicorn
+
+(venv) ~/myRepoName$ pip3 install {{anything you need that was not already in requirements.txt}} (Didn't do this one)
+
+
+
+
+
+
+
+
+Next step will be to configure the two different server files, gunicorn and nginx.
+
+
+
+
+
+
+
+
+VIM is a terminal-based file editor. We will use it to change the necessary files in order to get our project running. In the following instructions, you'll be using the vim command to enter the editor. The vim command can be used either to edit existing files or create and open a new blank file. Once you have entered the editor interface, press i to enter INSERT mode. You should see –INSERT– at the bottom left corner of your terminal. Now use your arrow keys to move the cursor to where you want to edit and make your changes.
+
+Once you are done, press the esc key to exit INSERT mode. Type a colon to enter the vim command interface. You should now see a colon at the bottom left corner of your terminal. Now, type wq and press return to write (save) and quit.
+
+If you want to quit without saving, type q! after the colon.
+
+If you'd like to save without quitting, type w after the colon.
+
+
+
+
+
+
+
+:wq = write (save) and quit
+
+:q! = quit without saving
+
+:w = write (save) without quitting
+
+
+
+
+
+
+
+
+Now, we need a wsgi.py file, which will help Gunicorn, our process manager, know how to interact with the application. We will use vim as our text editor to make our files.
+
+
+
+
+(venv) ~/myRepoName$ sudo vim wsgi.py                     // this will open the new, empty file for us (or the old, not empty file)
+
+
+
+
+
+
+We will need the following code in our wsgi.py file (this assumes that you named your server file server.py, if you named it something different you will have to put that name in place of server in the code below):
+
+(Hit 'i' for insert, right click to paste what's below, "esc" to get out of your insert command, then type ":wq" and hit "enter")
+
+
+from server import app as application
+if __name__ == "__main__":
+    application.run()
+
+
+(RIGHT CLICK TO COPY AND PASTE!!! ALL IMPORTANT HERE)
+
+
+
+
+
+
+Now, we need to direct Gunicorn to our project's wsgi.py file, which is the entry point to our application.
+
+(venv) ~/myRepoName$ gunicorn --bind 0.0.0.0:5000 wsgi:application (SHOULD THOSE 4 0's EVER BE SOMETHING ELSE???)
+
+
+If your Gunicorn process ran correctly, you will see something like the following printed to the terminal:
+
+[2016-12-27 05:45:56 +0000] [8695] [INFO] Starting gunicorn 19.6.0
+[2016-12-27 05:45:56 +0000] [8695] [INFO] Listening at: http://0.0.0.0:5000 (8695)
+[2016-12-27 05:45:56 +0000] [8695] [INFO] Using worker: sync
+[2016-12-27 05:45:56 +0000] [8700] [INFO] Booting worker with pid: 8700
+
+
+If you have any error messages, read them carefully - you may need to install anything that was not already included in your requirements.txt file. Run the command again, reading your error messages, until you get the output you see above.
+
+If that looks good, shut it down with ctrl + C. 
+
+We're still not done!...
+
+
+
+
+
+
+Deactivate the virtual environment with:
+
+(venv) ~/myRepoName$ deactivate
+
+
+
+
+
+
+Now, we need a systemd service unit file. This will automatically start Gunicorn when the server boots.
+
+A word on naming conventions: Wherever you see {{project}}, replace it with the name you call your Flask project. It does not matter what you choose, as long as you are consistent. We suggest choosing something short and easy to remember. Wherever you see {{repo name}}, replace that with the name of your GitHub repo. It will be the same name as the directory that is created when you git clone your repo. It could well be that your repo name and your project name are the same.
+
+
+
+
+
+sudo vim /etc/systemd/system/gunicorn.service
+
+
+
+
+
+In this file you just created, we will need the following (everywhere you see {{username}}, replace that with the username you created for your server):
+
+
+
+
+[Unit]
+Description=Gunicorn instance
+After=network.target
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/{{repo name}}
+Environment="PATH=/home/ubuntu/{{repo name}}/venv/bin"
+ExecStart=/home/ubuntu/{{repo name}}/venv/bin/gunicorn --workers 3 --bind unix:{{project}}.sock -m 007 wsgi:application
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+<<<Once the new file opens, do the same as above, hit 'i' for insert, right click to paste the above AMENDED block of text, "esc" to get out of your insert command, then type ":wq" and hit "enter" to save and quit. (Goes back to ubuntu line)>>>
+
+
+
+
+After we create this file, we need to enable it, so that it starts when the server boots:
+
+sudo systemctl start gunicorn                    // nothing will happen.
+sudo systemctl enable gunicorn                   // will say it was created.
+
+
+
+
+
+After running these lines, you should see your {{project}}.sock file in your project, on the same level as server.py. ("ls" to see if it's there.) If not, you probably have a typo in the systemd service unit file.
+
+THAT SOCK FILE IS THE CONNECTION BETWEEN GUNICORN PROCESS SERVER (that we installed) AND THE FLASK PROJECT ITSELF.
+
+
+
+
+
+
+THE NEXT STEP WILL BE OUR LAST CONFIGURATION THAT WILL CONNECT THE IP ADDRESS THAT WE HAVE FROM AWS AND POINT THEM INTO THE {{project}}.sock FILE IN ORDER TO CONNECT TO TWO DIFFERENT SERVERS.
+
+
+
+
+
+
+Now, we just need to configure nginx to handle requests made by the server. Let's create a new file in sites-available.
+
+sudo vim /etc/nginx/sites-available/{{project}}
+(ON VIDEO HE ADDED .sock AT THE END...??? No he didn't.)
+
+
+
+
+
+
+In this file, we will need the following:
+
+server {
+    listen 80;
+    server_name {{your public ip}};
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/{{repo name}}/{{project}}.sock;
+    }
+}
+
+
+
+
+
+{{your public ip}}: this will be the Public IP address from the EC2 instance that we generated.
+
+
+<<<Same as above, hit 'i' for insert, right click to paste the above AMENDED block of text, "esc" to get out of your insert command, then type ":wq" and hit "enter" to save and quit. (Goes back to ubuntu line)>>>
+
+
+
+
+
+
+Now, we need to link this nginx configuration to our sites-enabled directory.
+
+sudo ln -s /etc/nginx/sites-available/{{project}} /etc/nginx/sites-enabled 
+(try the above with and without space!!! VIDEO RAN IT with THE SPACE. Nothing happens when this is run btw.)
+
+
+
+
+
+
+Test nginx for errors:
+
+sudo nginx -t
+
+
+
+If we get a message saying that everything is (syntactically) ok, then we are almost done!
+
+
+
+
+
+
+
+We will remove the Nginx default site display from directory sites-enabled, by running the following in your terminal.
+
+sudo rm /etc/nginx/sites-enabled/default
+
+
+
+
+
+
+
+Now, all that is left to do is restart your Nginx server.
+
+sudo service nginx restart
+
+
+
+
+
+
+If your server restarted correctly, you will see the new command line, and your app is deployed! Go to the public domain and your app should be there.
+
+
+
+
+
+
+
+
+
+If you see anything other than your app, review your server file for errors.
+
+
+
+
+
+
+
+
+To exit the remote server, type:
+
+exit
+
+
+
+
+
+
+
+Common errors and how to find them:
+502, bad gateway: there is a problem in your code. Hint: any error starting with 5 indicates a server error
+
+Verify that the correct version of Gunicorn was installed. Check the directions on "Server Configuration" to verify if a specific version was asked for and run the command again if needed.
+
+Still getting a 502 error after verifying the correct version of Gunicorn was installed: go back to the gunicorn.services file sudo vim /etc/systemd/system/gunicorn.service and replace Group=www-data with Group=root. Restart nginx with sudo service nginx restart and refresh your browser.
+
+Your Gunicorn process won’t start: Check your .service file; typos and wrong file paths are common mistakes
+
+Your NGINX restart fails: Check your NGINX file in the sites-available directory. Common problems include typos and forgetting to insert your project name where indicated.
+
+Make sure the URL requested is correct (example if your root route is /home, make sure you put /home after the IP)
+
+Ensure your URL has http:// instead of https://. The link from your EC2 instance will automatically insert https:// into the URL.
+
+
+
+
+
+
+
+
+
+
+
+
+

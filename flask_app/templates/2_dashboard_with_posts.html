@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wall</title>
+</head>
+
+<body style="text-align: center;">
+    <div class="container">
+        <h1>Coding Dojo Wall</h1>
+        <br>
+        <h2>Welcome, {{user.first_name}}!</h2>
+        <br>
+        <button><a href="/logout">Logout</a></button>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <form action="/wall" method="post">
+            {% with messages = get_flashed_messages(category_filter=['post']) %}     <!-- declare a variable called messages -->
+                {% if messages %}                            <!-- check if there are any messages -->
+                    {% for message in messages %}            <!-- loop through the messages -->
+                        <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h3><label for="content">What's on your mind? Create a new post:</label></h3>
+            <textarea name="content" id="" cols="45" rows="3"></textarea>
+            <br>
+            <br>
+            <button>publish</button>
+        </form>
+        <br>
+        <hr>
+        <br>
+        <h2>All Community Posts</h2>
+        <br>
+        {% for post in range(all_posts|length -1,-1,-1) %}
+                <div style="border: 3px solid black;">
+                    <h3>Post by {{all_posts[post].user.first_name}} - {{all_posts[post].created_at}}</h3>
+                    <p>{{all_posts[post].content}}</p>
+                    {% if session.user_id == all_posts[post].users_id %}
+                    <a href="/delete_post/{{all_posts[post].id}}">delete</a>
+                    <br>
+                    <br>
+                    {% endif %}
+                    <form action="/post_comment/{{all_posts[post].id}}" method="post">
+                        {% for each_comment in all_posts[post].comments %}
+                        {% if each_comment.content != None %}
+                        <br>
+                        <hr>
+                        <strong>Comment by {{each_comment.user.first_name}} - {{each_comment.created_at}}</strong>
+                        <p>{{each_comment.content}}</p>
+                        {% endif %}
+                        {% endfor %}
+                        <label>post a comment: </label>
+                        <input type="text" name="content">
+                        <button>Comment</button>
+                        <br>
+                        <br>
+                        <br>
+                    </form>
+                </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
